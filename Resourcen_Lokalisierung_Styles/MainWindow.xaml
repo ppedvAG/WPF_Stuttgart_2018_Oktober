@@ -1,0 +1,44 @@
+﻿<Window x:Class="Resourcen_Lokalisierung_Styles.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Resourcen_Lokalisierung_Styles"
+        xmlns:properties="clr-namespace:Resourcen_Lokalisierung_Styles.Properties"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="{x:Static properties:Resources.HelloWorld}"
+        Height="450" Width="800">
+        <!--Visual Studio Extension: "ResX Manager" vereinfacht Arbeit mit ResX-Dateien-->
+    <Window.Resources>
+        <Double xmlns="clr-namespace:System;assembly=mscorlib" x:Key="windowFontSize" >20</Double>
+        <system:String x:Key="order">Bestellen</system:String>
+    </Window.Resources>
+    <StackPanel>
+        <Menu FontSize="{DynamicResource windowFontSize}">
+            <!--{} = Markup-Extension, Kurzschreibweise für Tags-->
+            <MenuItem Header="Sprache" Click="Sprache_Wechseln_Click">
+                <MenuItem Tag="German.xaml" Header="Deutsch"  />
+                <MenuItem Tag="Schwabian.xaml" Header="Schwäbisch" />
+            </MenuItem>
+            <MenuItem Header="Styles" Click="Style_Wechseln_Click">
+                <MenuItem Header="Normal" Tag="Normal.xaml" />
+                <MenuItem Header="Funky" Tag="FunkyStyle.xaml" />
+            </MenuItem>
+        </Menu>
+        <Button Click="Button_Bestellen_Click" Content="{StaticResource order}">
+            <Button.FontSize>
+                <StaticResource ResourceKey="windowFontSize" />
+            </Button.FontSize>
+            </Button>
+        <Button Style="{StaticResource specialButton}" FontSize="{StaticResource windowFontSize}" Content="{StaticResource cancel}" />
+        <StackPanel>
+            <StackPanel.Resources>
+                <Double xmlns="clr-namespace:System;assembly=mscorlib" x:Key="windowFontSize" >30</Double>
+            </StackPanel.Resources>
+
+            <CheckBox FontSize="{StaticResource windowFontSize}" Content="{StaticResource with_cheese}" />
+            <TextBox FontSize="{StaticResource windowFontSize}" Text="{StaticResource spaetzle}" />
+        </StackPanel>
+    </StackPanel>
+</Window>

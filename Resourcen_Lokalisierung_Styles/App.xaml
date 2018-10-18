@@ -1,0 +1,19 @@
+﻿<Application x:Class="Resourcen_Lokalisierung_Styles.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Resourcen_Lokalisierung_Styles"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--Externe Resourcen-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Sprachen/Schwabian.xaml" />
+                <ResourceDictionary Source="Styles/Base.xaml" />
+                <ResourceDictionary Source="pack://siteOfOrigin:,,,/Styles/Normal.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--Lokale Resourcen-->            
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

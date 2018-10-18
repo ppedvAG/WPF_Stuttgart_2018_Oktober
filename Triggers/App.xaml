@@ -1,0 +1,51 @@
+﻿<Application x:Class="Triggers.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Triggers"
+             xmlns:p="clr-namespace:DataTemplates;assembly=DataTemplates"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <DataTemplate x:Key="personTemplateExp" DataType="p:Person">
+            <!--Im DataTemplate gilt automatisch das jeweilige Item in der Liste als DataContext-->
+            <Grid x:Name="grid1" HorizontalAlignment="Stretch" Background="Red" Width="200">
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard Name="widthAnimation">
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="grid1"
+                                                 Storyboard.TargetProperty="Width"
+                                                 From="200" To="500" Duration="0:0:0.500" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <StopStoryboard BeginStoryboardName="widthAnimation" />
+                    </EventTrigger>
+                </Grid.Triggers>
+           
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image HorizontalAlignment="Stretch" Width="100" Stretch="Uniform" Source="{Binding ImageUrl}"    />
+                <StackPanel Grid.Column="1" MaxWidth="500" HorizontalAlignment="Left">
+                    <TextBox Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <CheckBox IsChecked="{Binding Behindert}">Behindert</CheckBox>
+                    <TextBlock x:Name="tbAlter">Alter: <Run Text="{Binding Alter}" /></TextBlock>
+                    <Slider Minimum="0" Maximum="120" TickFrequency="1" IsSnapToTickEnabled="True" 
+                                    Value="{Binding Alter}" />
+                </StackPanel>
+            </Grid>
+
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Behindert}" Value="True">
+                    <Setter TargetName="grid1" Property="Background" Value="Yellow"  />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Volljährig}" Value="True">
+                    <Setter TargetName="tbAlter" Property="FontWeight" Value="ExtraBold" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </Application.Resources>
+</Application>

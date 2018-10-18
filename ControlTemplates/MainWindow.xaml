@@ -1,0 +1,68 @@
+﻿<Window x:Class="ControlTemplates.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlTemplates"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+            <Setter Property="BorderThickness" Value="5" />
+            <Setter Property="BorderBrush" Value="Green" />
+            <Setter Property="Background" Value="Aqua" />
+        </Style>
+    </Window.Resources>
+    <StackPanel VerticalAlignment="Center" Background="Yellow">
+        <Button>Normaler Button</Button>
+        <Button>
+            <!--Das Standard-Template eines Controls anzeigen:
+            Cursor über Elementnamen -> F4 -> Im Property-Window nach Template-Eigenschaft suchen -> 
+            Click aufs kleine Rechteck neben dem Eintrag -> Convert to Local Value-->
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <ControlTemplate.Resources>
+                        <!--{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Background} ist die ausführliche
+                        Schreibweise von {TemplateBinding Background}. In der Kurzschreibweise lässt sich jedoch keine Unterproperty angeben,
+                        daher muss hier die Langschreibweise benutzt werden.-->
+                        <SolidColorBrush x:Key="brushBack" Color="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Background.Color}" />
+                        <SolidColorBrush x:Key="brushBorder" Color="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=BorderBrush.Color}" />
+                    </ControlTemplate.Resources>
+                    <Border Padding="5" MouseEnter="border_MouseEnter"  CornerRadius="10000" x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Button.IsDefaulted" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <!--Wenn sich die Maus über dem Button befindet, soll Rahmen- und Hintergrundfarben vertauscht werden.-->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <!--An Value direkt können wir keinen Wert binden, aber StaticResources sind möglich.
+                            Daher wird der aktuell eingestellte Wert für Background und BorderBrush des Buttons in einer
+                            Resource zwischengespeichert.-->
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource brushBorder}" />
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource brushBack}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource brushBack}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource brushBorder}"/>
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                            <Setter Property="Foreground" Value="#FF838383"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+            
+            Runder Button
+        </Button>
+    </StackPanel>
+</Window>

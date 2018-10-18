@@ -1,0 +1,48 @@
+﻿<Window x:Class="DataTemplates.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataTemplates"
+        mc:Ignorable="d"
+        x:Name="window1"
+        SizeToContent="Height"
+        Title="MainWindow"  Width="800">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    <ScrollViewer>
+
+        <StackPanel>
+            <ListBox Margin="15" SelectedItem="{Binding AusgewähltePerson}" Background="Brown" x:Name="list1" ItemsSource="{Binding Personen}" ItemTemplate="{StaticResource personTemplateExp}" />
+            <Button Click="Button_Click">Zeige die älteste Person</Button>
+            <ContentPresenter Height="100" Margin="20" HorizontalAlignment="Stretch" Content="{Binding ElementName=list1,Path=SelectedItem}" ContentTemplate="{StaticResource personTemplate}" />
+
+            <Border BorderBrush="Black" BorderThickness="3" Margin="10" Padding="14" Background="Yellow">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Margin="0 0 10 0">Index von Person eingeben:</TextBlock>
+                        <TextBox HorizontalAlignment="Center" x:Name="text1" Width="100" Text="{Binding Index,UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                    <TextBlock>
+                        Alter von <Run Text="{Binding Index}" />. Person: <Run  Text="{Binding PersonFromIndex.Alter}" />
+                    </TextBlock>
+                    <TextBlock>
+                        Name von <Run Text="{Binding Index}" />. Person:
+                        <Run>
+                            <Run.Text>
+                                <MultiBinding>
+                                    <MultiBinding.Converter>
+                                        <local:IndexToPersonConverter />
+                                    </MultiBinding.Converter>
+                                    <Binding ElementName="text1" Path="Text" />
+                                    <Binding Path="Personen" />
+                                </MultiBinding>
+                            </Run.Text>
+                        </Run>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
